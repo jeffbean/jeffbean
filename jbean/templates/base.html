@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lolly&Bean{% endblock %}</title>
+    <style type="text/css">
+        .table th, .table td {
+            line-height: 16.5px;
+        }
+
+        div.dataTables_length label {
+            width: 460px;
+            float: left;
+            text-align: left;
+        }
+
+        div.dataTables_length select {
+            width: 100px;
+        }
+
+        div.dataTables_filter label {
+            float: right;
+        }
+
+        div.dataTables_info {
+            padding-top: 8px;
+        }
+
+        div.dataTables_paginate {
+            float: right;
+            margin: 0;
+        }
+
+        table {
+            margin: 1em 0;
+            clear: both;
+        }
+
+        #main_container {
+            min-width: 1140px;
+            min-height: 600px;
+            background-color: #FEFEFE;
+            padding: 52px 10px 10px 10px;
+            -moz-box-shadow: 0 0 7px #000000;
+            -webkit-box-shadow: 0 0 7px #000000;
+            box-shadow: 0 0 7px #000000;
+            border: 6px solid rgba(0, 0, 0, .1);
+            -webkit-background-clip: padding-box; /* for Safari */
+            background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-bottom: 5%;
+        }
+
+        #main_title {
+            padding-bottom: 10px;
+            margin-left: -10px;
+            margin-right: -10px;
+
+        }
+
+    </style>
+    {% block morestyle %}
+    {% endblock %}
+</head>
+<body style="background-color: #8EAE77">
+<div class="navbar navbar-fixed-top navbar-inverse" style="box-shadow: 0 0 7px #000000;">
+    <div class="navbar-inner">
+        <div class="container">
+            <!--navigation does here-->
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <!-- Be sure to leave the brand out there if you want it shown -->
+            <a class="brand" style="font-size: 24px" href="{% url "home" %}" style="margin-right: 5px; padding: 0; margin-top: -5px">J&L</a>
+            <!-- Everything you want hidden at 940px or less, place within here -->
+            <ul class="nav pull-left nav-collapse">
+                <!-- .nav, .navbar-search, .navbar-form, etc -->
+                <li><a href="{% url "blog-home" %}">Blog</a></li>
+            </ul>
+            {% block addrightbar %}
+            {% endblock %}
+            <div class=''>
+                <ul class="nav pull-right">
+                    <ul class="nav ">
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <div class="btn-group">
+                            <a class="btn btn-success" href="{% url "home" %}"><i
+                                    class="icon-user icon-white"></i> {{ user.get_full_name }} </a>
+                            <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url "admin:index" %}"><i class="icon-arrow-up"></i> Admin</a></li>
+                                <li class="divider"></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Login</a>
+                        </div>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal %}
+    <div id="baseModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="baseModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="baseModalLabel"></h3>
+        </div>
+        <div id="base-modal-body" class="modal-body">
+            <p>Default body... Report bug with steps to get this message.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+        </div>
+    </div>
+{% endblock %}
+
+<div class='container-fluid' id="main_container">
+    {% block beforerow %}
+    {% endblock %}
+    <div class='row-fluid'>
+        {% block header_messages %}
+        {% endblock %}
+        <h2 class="text-center" id="main_title">
+            {% block header %}
+                {{ page_header }}
+            {% endblock %}
+        </h2>
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+{% block scripts %}
+    <script src="{{ STATIC_URL }}js/jq.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+{% endblock %}
+</html>

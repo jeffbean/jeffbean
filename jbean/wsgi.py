@@ -26,7 +26,7 @@ if os.path.isdir(venv_path):
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "jbean.settings")
 os.environ['DJANGO_SETTINGS_MODULE'] = "jbean.settings"
 
-sys.path = ['/opt/web/jeffbean/jbean'] + sys.path
+sys.path = [os.path.normpath('/opt/web/jeffbean/jbean')] + sys.path
 
 import django.core.handlers.wsgi
 
