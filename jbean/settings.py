@@ -1,5 +1,6 @@
 # Django settings for jbean project.
 import os
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -12,17 +13,22 @@ if DEBUG:
 
 MANAGERS = ADMINS
 
+DB_PATH = '/opt/data/sitedb/'
+if DEBUG and not os.path.isdir(DB_PATH):
+    DB_NAME = os.path.normpath(os.path.join(os.path.dirname(__file__), 'sitedb')) + 'jeffbean.db'
+else:
+    DB_NAME = DB_PATH + 'jeffbean.db'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.normpath(os.path.join(os.path.dirname(__file__), 'sitedb')) + 'jeffbean.db',
+        'NAME': DB_NAME,
     }
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['*']
-import os
 if DEBUG:
     SECRET_KEY = ')g8k%z-(vv304(0ir#wf2vo+vt$c2yp^4$hd%^iz(2@i#lx*)('
 else:
