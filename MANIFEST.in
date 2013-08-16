@@ -1,4 +1,4 @@
-graft contrib
-graft jbean
+recursive-include contrib *
+recursive-include jbean *
 include README.rst
 include setup.py
