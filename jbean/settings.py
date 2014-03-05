@@ -1,44 +1,39 @@
+# coding=utf-8
 # Django settings for jbean project.
 import os
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Jeffrey Bean', 'jeffreyrobertbean@gmail.com'),
 )
 
-if DEBUG:
-    SECRET_KEY = ')g8k%z-(vv304(0ir#wf2vo+vt$c2yp^4$hd%^iz(2@i#lx*)('
 
 MANAGERS = ADMINS
-
-DB_PATH = '/opt/data/sitedb/'
-if DEBUG and not os.path.isdir(DB_PATH):
-    DB_NAME = os.path.normpath(os.path.join(os.path.dirname(__file__), 'sitedb')) + 'jeffbean.db'
-else:
-    DB_NAME = DB_PATH + 'jeffbean.db'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_NAME,
+        'NAME': '/tmp/prod.db',
     }
 }
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+AUTH_PROFILE_MODULE = 'jbean.apps.accounts.models.AccountProfile'
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['*']
-if DEBUG:
-    SECRET_KEY = ')g8k%z-(vv304(0ir#wf2vo+vt$c2yp^4$hd%^iz(2@i#lx*)('
-else:
-    SECRET_KEY = os.environ.get('jbean_s_key')
+SECRET_KEY = os.environ.get('JBEAN_SECRET_KEY')
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'America/Los_Angeles'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -46,15 +41,8 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale.
 USE_L10N = True
-
-# If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media').replace('\\', '/')
@@ -111,7 +99,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.markup',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -119,6 +106,7 @@ INSTALLED_APPS = (
     'jbean',
     'jbean.apps.blog',
     'jbean.apps.anime',
+    'jbean.apps.accounts',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -149,3 +137,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
